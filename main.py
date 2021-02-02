@@ -40,34 +40,60 @@ def multiplikation(faktor1, faktor2):
 
 
 def division(dividend, divisor):
-    ergebnis = dividend / divisor
-    rest = dividend % divisor
-    output(str(dividend) + ":" + str(divisor) + "=" + str(int(ergebnis)) + " Rest: " + str(rest))  # gibt die Rechnung aus
+    ergebnis_output = dividend / divisor  # Wird berechnet um es anzuzeigen
+    rest_output = dividend % divisor  # Wird berechnet um es anzuzeigen
+    output(str(dividend) + ":" + str(divisor) + "=" + str(int(ergebnis_output)) + " Rest: " + str(rest_output))  # gibt die Rechnung aus
 
-    aufgaben_laenge_mit_ergebnis = len(str(dividend) + str(divisor) + str(ergebnis) + str(rest))  # Addiert die Länge der Zahlen
+    aufgaben_laenge_mit_ergebnis = len(str(dividend) + str(divisor) + str(ergebnis_output) + str(rest_output))  # Addiert die Länge der Zahlen
     aufgaben_laenge_mit_ergebnis = aufgaben_laenge_mit_ergebnis + len(" Rest: " + str(2 * OPERATORLAENGE))  # Addiert die Schrift dazu
-
     output('-' * aufgaben_laenge_mit_ergebnis) # malt einen Bindestrich unter der Rechnung
 
-    ergebnis2 = ""  # wird genutzt, um die einzelenen Zahlen auf dem weg zum Gesamtergebnis zu speichern
+    ergebnis = ""  # wird genutzt, um die einzelenen Zahlen auf dem weg zum Gesamtergebnis zu speichern
     tempzahl = ""  # Stellt die Rechnenvariable bei den einzelnen Rechenschritten dar
     einrueckung_zwischen_rechnung = 0  # Hiermit soll die nötige Einrückung zum korrekten Darstellen mitgezaehlt werden
-
-    runter_gezogene_zahl = ""
+    tempergebnis = ""
 
     for zahl in str(dividend):  # geht nacheinander durch jede Zahl, die im dividend vorkommt (vlnr)
         tempzahl = tempzahl + str(zahl)
 
-
         if divisor > int(tempzahl):
-            ergebnis2 = ergebnis2 + "0"
+            ergebnis = ergebnis + "0"
+            # output(str(einrueckung_zwischen_rechnung * " ") + tempzahl)
             continue
-        else:
-            ergebnis2 = ergebnis2 + str(int(int(tempzahl) / int(divisor)))
+
+        elif (int(tempzahl) % int(divisor)) == 0:
+            zwischenergebnis = int(int(tempzahl) / int(divisor))
+            ergebnis = ergebnis + str(zwischenergebnis)
+            output(str(einrueckung_zwischen_rechnung * " ") + tempzahl)
+
+            if tempzahl[0] == "0":
+                for null in tempzahl:
+                    if null == "0":
+                        einrueckung_zwischen_rechnung = einrueckung_zwischen_rechnung + 1
+                    else:
+                        continue
+
+            output(str(einrueckung_zwischen_rechnung * " ") + str(zwischenergebnis * divisor))
+            output(str(einrueckung_zwischen_rechnung * " ") + '-' * len(str(int(tempzahl))))
+
             tempzahl = str(int(int(tempzahl) % int(divisor)))
 
-    output("Das Ergebnis ist: " + str(int(ergebnis2)) + " mit Rest: " + str(int(tempzahl)))
+            einrueckung_zwischen_rechnung = einrueckung_zwischen_rechnung + 1
 
+        else:
+            zwischenergebnis = int(int(tempzahl) / int(divisor))
+            ergebnis = ergebnis + str(zwischenergebnis)
+            output(str((einrueckung_zwischen_rechnung - (len(tempzahl) - len(str(int(tempzahl))))) * " ") + (tempzahl))
+            output(str(einrueckung_zwischen_rechnung * " ") + str(zwischenergebnis * divisor))
+            output(str(einrueckung_zwischen_rechnung * " ") + '-' * len(str(int(tempzahl))))
+
+            # output(str(einrueckung_zwischen_rechnung * " ") + str((int(tempzahl) % int(divisor))) + str())
+            einrueckung_zwischen_rechnung = einrueckung_zwischen_rechnung + 1
+            tempzahl = str(int(int(tempzahl) % int(divisor)))
+
+    output(str(einrueckung_zwischen_rechnung * " ") + tempzahl)
+
+    output("Das Ergebnis ist: " + str(int(ergebnis)) + " mit Rest: " + str(int(tempzahl)))
     output(ZEILENABSTAND) # gibt ZEILENABSTAND nachd er Rechnung aus. Soll die einzelnen Rechnungen von einander trennen
 
 
@@ -75,9 +101,14 @@ def division(dividend, divisor):
 if __name__ == '__main__':
 
     # multiplikation(5, 12345)
-    division(200, 4)
-    division(12345, 5)
-    division(465733, 7)
+    # division(200, 4)
+    # division(746, 7)
+    # division(12345, 5)
+    # division(465733, 7)
+    # division(451064, 8)
+    division(252546, 6)
+    division(26800, 4)
+    division(6048, 6)
 
     # while True:
     #     multiplication()
